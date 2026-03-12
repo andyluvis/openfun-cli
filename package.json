@@ -1,0 +1,28 @@
+{
+  "name": "openfun-cli",
+  "version": "0.1.0",
+  "description": "CLI for OpenFun.ai — AI video factory. Optimized for AI agent consumption.",
+  "type": "module",
+  "bin": {
+    "openfun": "./dist/bin/openfun.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/bin/openfun.js",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "keywords": ["openfun", "ai", "video", "tiktok", "youtube", "cli", "openclaw", "agent"],
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^13.1.0",
+    "open": "^10.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  }
+}
