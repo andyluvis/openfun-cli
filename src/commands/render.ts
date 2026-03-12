@@ -38,9 +38,8 @@ export async function renderCommand(
 
   console.error(`Starting video render for remix ${remixId}...`);
 
-  // We need the userId. For now, we pass it through and let the server resolve.
-  // The Convex mutation requires userId — the auth token should identify the user.
-  const result = await convexCall<{ jobId: string }>("mutation", "videoJobs:create", {
+  // Uses cli:createVideoJob which resolves userId from auth token server-side
+  const result = await convexCall<{ jobId: string }>("mutation", "cli:createVideoJob", {
     remixId,
     voiceId: options.voice || "echo",
   });

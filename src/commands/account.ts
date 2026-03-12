@@ -37,7 +37,8 @@ export async function accountCommand(options: {
   // Since there's no direct "getMyProfile" query exposed, we'll call a general endpoint
   // For now, output what we can from the auth state
   try {
-    const stats = await convexCall<RemixStats>("query", "remixes:getBestScore", {
+    // Uses cli:getMyAccount which resolves userId from auth token server-side
+    const stats = await convexCall<RemixStats>("query", "cli:getMyStats", {
       sinceDaysAgo: 30,
     });
 
