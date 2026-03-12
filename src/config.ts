@@ -23,7 +23,7 @@ function ensureDir(): void {
 
 export function getConfig(): Config {
   const defaultUrl =
-    process.env.OPENFUN_DEPLOYMENT_URL || "https://your-deployment.convex.cloud";
+    process.env.OPENFUN_DEPLOYMENT_URL || "https://veracious-wildebeest-919.convex.cloud";
 
   if (existsSync(CONFIG_FILE)) {
     try {

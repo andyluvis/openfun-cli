@@ -22,8 +22,8 @@ export async function videosCommand(options: {
 }): Promise<void> {
   const limit = parseInt(options.limit || "10", 10);
 
-  // getCompleted requires userId — the auth token resolves the user server-side
-  const videos = await convexCall<VideoJob[]>("query", "videoJobs:getCompleted", {
+  // Uses cli:getMyVideos which resolves userId from auth token server-side
+  const videos = await convexCall<VideoJob[]>("query", "cli:getMyVideos", {
     limit,
   });
 
