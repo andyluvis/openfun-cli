@@ -24,7 +24,7 @@ export async function loginCommand(options: {
   // Browser-based auth flow
   const config = getConfig();
   const appUrl = config.deploymentUrl.includes("convex.cloud")
-    ? "https://openfun-kz8l.vercel.app"
+    ? "https://www.openfun.ai"
     : config.deploymentUrl;
 
   const loginUrl = `${appUrl}/cli-auth?callback=http://localhost:${CALLBACK_PORT}/callback`;
