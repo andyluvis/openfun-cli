@@ -129,8 +129,38 @@ export async function remixCommand(
   console.error("Generating remix...");
   const result = await convexCall<RemixResponse>("action", "ai:remixFromUrl", args);
 
+  // Auto-save remix to get an ID for rendering
+  console.error("Saving remix...");
+  const saved = await convexCall<{ remixId: string }>("mutation", "cli:saveRemix", {
+    sourceUrl: urlArg || undefined,
+    platformTarget: platform,
+    tone: tone || undefined,
+    niche: niche || undefined,
+    funnelStage: funnelStage || undefined,
+    hookText: result.remix?.hook?.text,
+    hookScore: result.remix?.hook?.score,
+    bodyText: result.remix?.body?.text,
+    bodyScore: result.remix?.body?.score,
+    ctaText: result.remix?.cta?.text,
+    ctaScore: result.remix?.cta?.score,
+    overallScore: result.remix?.overall_score,
+    aiAnalysis: result.analysis,
+    aiSuggestions: result.boost_suggestions,
+    hookVariants: result.remix?.hook_variants,
+    hookDimensions: result.remix?.hook_dimensions ? {
+      curiosity: result.remix.hook_dimensions.curiosity,
+      patternInterrupt: result.remix.hook_dimensions.pattern_interrupt,
+      specificity: result.remix.hook_dimensions.specificity,
+      identityTargeting: result.remix.hook_dimensions.identity_targeting,
+    } : undefined,
+  });
+
+  // Attach remixId to output
+  const output = { ...result, remixId: saved.remixId };
+
   if (options.pretty) {
     console.error(`\n━━━ Remix Result ━━━`);
+    console.error(`Remix ID: ${saved.remixId}`);
     console.error(`Language: ${result.original_language_name} (${result.original_language})`);
     console.error(`Pattern: ${result.analysis.pattern_applied}`);
     console.error(`Archetype: ${result.analysis.structure_archetype}`);
@@ -169,7 +199,9 @@ export async function remixCommand(
     if (result.ai_tip) {
       console.error(`\n💡 AI Tip: ${result.ai_tip}`);
     }
+
+    console.error(`\nRender: openfun render ${saved.remixId}`);
   } else {
-    outputJson(result);
+    outputJson(output);
   }
 }
